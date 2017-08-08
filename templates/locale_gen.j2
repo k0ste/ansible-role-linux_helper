@@ -1,0 +1,10 @@
+{{ '## ' + 'locale.gen' }}
+{{ '# ' + ansible_managed }}
+{{ '# ' + 'Do not edit manually' }}
+
+{% for l in hostvars[inventory_hostname]['linux_helper_locale'] %}
+{% if l.locale is defined and l.locale != ''
+  and l.charset is defined and l.charset != '' %}
+{{ l.locale + '.' + l.charset + ' ' + l.charset }}
+{% endif %}
+{% endfor %}

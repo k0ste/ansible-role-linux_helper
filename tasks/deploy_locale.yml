@@ -1,0 +1,24 @@
+---
+- name: linux_helper | Prepare locale.gen file
+  template:
+    src: "locale_gen.j2"
+    dest: "/etc/locale.gen"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+    force: "yes"
+- name: linux_helper | Deploy locales
+  locale_gen:
+    name: "{{ item.locale + '.' + item.charset }}"
+    state: "present"
+  with_items: "{{ hostvars[inventory_hostname]['linux_helper_locale'] }}"
+  loop_control:
+    label: "{{ item.locale }}"
+- name: linux_helper | Deploy locale.conf
+  template:
+    src: "locale_conf.j2"
+    dest: "/etc/locale.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+    force: "yes"
