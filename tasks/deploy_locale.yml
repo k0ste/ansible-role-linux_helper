@@ -1,4 +1,5 @@
 ---
+# This task is not useless! See locale_gen.py for details.
 - name: linux_helper | Prepare locale.gen file
   template:
     src: "locale_gen.j2"
@@ -22,3 +23,6 @@
     group: "root"
     mode: "0644"
     force: "yes"
+  when:
+  - "hostvars['inventory_hostname']['linux_helper_set_langs'] is defined"
+  - "hostvars['inventory_hostname']['linux_helper_set_langs'] != ''"
