@@ -1,0 +1,12 @@
+---
+- name: linux_helper | Deploy hosts table
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+    force: "yes"
+  when:
+  - "hostvars[inventory_hostname]['linux_helper_hosts'] is defined"
+  - "hostvars[inventory_hostname]['linux_helper_hosts'] != ''"
