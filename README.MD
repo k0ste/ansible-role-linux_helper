@@ -1,16 +1,13 @@
-linux_helper
-=============
+# linux_helper
 
 Various Linux deployments.
 
-Requirements
----------------
+## Requirements
 
-* Ansible 2.2;
+* Ansible 2.4;
 * [python-netaddr](//docs.ansible.com/ansible/playbooks_filters_ipaddr.html);
 
-Example configuration
------------------------
+## Example configuration
 
 ```yaml
 ---

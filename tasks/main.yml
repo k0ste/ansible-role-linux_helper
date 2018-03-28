@@ -1,9 +1,9 @@
 ---
-- include: deploy_locale.yml
+- include_tasks: deploy_locale.yml
   when:
   - "hostvars[inventory_hostname]['linux_helper_locale'] is defined"
   - "hostvars[inventory_hostname]['linux_helper_locale'] != ''"
-- include: deploy_hosts.yml
+- include_tasks: deploy_hosts.yml
   when:
   - "hostvars[inventory_hostname]['linux_helper_hosts'] is defined"
   - "hostvars[inventory_hostname]['linux_helper_hosts'] != ''"
