@@ -1,0 +1,45 @@
+---
+- name: linux_helper | Set facts about modprobe.d
+  set_fact:
+    linux_helper_modprobes: "{{
+      hostvars[inventory_hostname]['linux_helper_modprobe'] |
+      json_query('[].modprobes[].file_name') }}"
+  when:
+  - "hostvars[inventory_hostname]['linux_helper_modprobe'] is defined"
+  - "hostvars[inventory_hostname]['linux_helper_modprobe'] != ''"
+- name: linux_helper | Make modprobe.d directory
+  file:
+    path: "/etc/modprobe.d"
+    state: "directory"
+    owner: "root"
+    group: "root"
+    mode: "0755"
+  when:
+  - "vars['linux_helper_modprobes'] is defined"
+  - "vars['linux_helper_modprobes'] != ''"
+- name: linux_helper | Find exists tmpfiles configuration files
+  find:
+    paths: "/etc/modprobe.d"
+    recurse: "no"
+    file_type: "file"
+    patterns: "(.*).conf"
+    use_regex: "true"
+  register: "modprobe_find"
+  when:
+  - "vars['linux_helper_modprobes'] is defined"
+  - "vars['linux_helper_modprobes'] != ''"
+  - "hostvars[inventory_hostname]['linux_helper_modprobe'] |
+     json_query(vars['modprobe_drop_exists']) is defined"
+  - "hostvars[inventory_hostname]['linux_helper_modprobe'] |
+     json_query(vars['modprobe_drop_exists']) == true"
+  vars:
+    modprobe_drop_exists: "[] | map(&drop_exists || 'no', @) | [0]"
+- name: linux_helper | Delete exists modprobe.d files
+  file:
+    path: "{{ item.path }}"
+    state: "absent"
+  with_items: "{{ vars['modprobe_find']['files'] }}"
+  loop_control:
+    label: "{{ item.path }}"
+  when:
+  - "vars['modprobe_find']['files'] is defined"

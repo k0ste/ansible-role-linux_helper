@@ -30,4 +30,31 @@ linux_helper_hosts:
   aliases:
   - 'home'
   - 'mirror.archlinux.org'
+
+linux_helper_modprobe:
+- drop_exists: 'true'
+  modprobes:
+  - file_name: 'intel-mei'
+    actions:
+  # Create alias for 'mei', 'mei-me', 'mei-txe'
+    - action: 'alias'
+      wildcard: 'intel-mei'
+      module: 'mei*'
+  # Blacklist this modules
+    - action: 'blacklist'
+      module: 'intel-mei'
+  # Set sequence options for module
+  - file_name: 'intel-snd'
+    actions:
+    - action: 'options'
+      module: 'snd_hda_intel'
+      options:
+      - 'power_save=1'
+      - 'power_save_controller=N'
+  # Set one option for module, as string
+  - file_name: 'intel-iwl'
+    actions:
+    - action: 'options'
+      module: 'iwlwifi'
+      options: '11n_disable=8'
 ```

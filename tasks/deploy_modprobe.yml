@@ -1,0 +1,14 @@
+---
+- name: linux_helper | Deploy modprobe.d
+  template:
+    src: "modprobe.j2"
+    dest: "{{ '/etc/modprobe.d' ~ '/' ~ vars['outer_item'] ~ '.conf' }}"
+    group: "root"
+    owner: "root"
+    mode: "0644"
+    force: "yes"
+  with_items: "{{ hostvars[inventory_hostname]['linux_helper_modprobe'] |
+                  json_query(\"[].modprobes\" ~ \"[?file_name=='\" ~
+                  vars['outer_item'] ~ \"']\") }}"
+  loop_control:
+    label: "{{ item.file_name }}"
