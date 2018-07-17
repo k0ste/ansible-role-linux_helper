@@ -1,5 +1,5 @@
 ---
 - include_tasks: deploy_modprobe.yml
-  with_items: "{{ vars['linux_helper_modprobes'] }}"
+  loop: "{{ vars['linux_helper_modprobes'] | flatten(levels=1) }}"
   loop_control:
     loop_var: "outer_item"

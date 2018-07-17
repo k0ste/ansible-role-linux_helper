@@ -12,7 +12,8 @@
   locale_gen:
     name: "{{ item.locale + '.' + item.charset }}"
     state: "present"
-  with_items: "{{ hostvars[inventory_hostname]['linux_helper_locale'] }}"
+  loop: "{{ hostvars[inventory_hostname]['linux_helper_locale'] |
+    flatten(levels=1) }}"
   loop_control:
     label: "{{ item.locale }}"
 - name: linux_helper | Deploy locale.conf

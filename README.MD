@@ -4,8 +4,7 @@ Various Linux deployments.
 
 ## Requirements
 
-* Ansible 2.4;
-* [python-netaddr](//docs.ansible.com/ansible/playbooks_filters_ipaddr.html);
+* Ansible 2.5+;
 
 ## Example configuration
 

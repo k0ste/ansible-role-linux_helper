@@ -38,8 +38,9 @@
   file:
     path: "{{ item.path }}"
     state: "absent"
-  with_items: "{{ vars['modprobe_find']['files'] }}"
+  loop: "{{ vars['modprobe_find']['files'] | flatten(levels=1) }}"
   loop_control:
     label: "{{ item.path }}"
   when:
   - "vars['modprobe_find']['files'] is defined"
+  - "vars['modprobe_find']['files'] != []"

@@ -1,4 +1,5 @@
 ---
 linux_helper_locale: []
 linux_helper_hosts: []
+linux_helper_modprobe: []
 linux_helper_set_langs: 'false'
