@@ -17,6 +17,16 @@
   when:
   - "vars['linux_helper_modprobes'] is defined"
   - "vars['linux_helper_modprobes'] != ''"
+- name: linux_helper | Make selinux directory
+  file:
+    path: "/etc/selinux"
+    state: "directory"
+    owner: "root"
+    group: "root"
+    mode: "0755"
+  when:
+  - "hostvars[inventory_hostname]['linux_helper_selinux'] is defined"
+  - "hostvars[inventory_hostname]['linux_helper_selinux'] != ''"
 - name: linux_helper | Find exists tmpfiles configuration files
   find:
     paths: "/etc/modprobe.d"

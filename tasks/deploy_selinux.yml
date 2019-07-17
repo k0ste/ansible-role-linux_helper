@@ -1,0 +1,12 @@
+---
+- name: linux_helper | Deploy SELinux configuration
+  template:
+    src: "selinux.j2"
+    dest: "/etc/selinux/config"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+    force: "yes"
+  when:
+  - "hostvars[inventory_hostname]['linux_helper_selinux'] is defined"
+  - "hostvars[inventory_hostname]['linux_helper_selinux'] != ''"

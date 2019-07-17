@@ -56,4 +56,15 @@ linux_helper_modprobe:
     - action: 'options'
       module: 'iwlwifi'
       options: '11n_disable=8'
+
+linux_helper_selinux:
+# 'enforcing' - SELinux security policy is enforced.
+# 'permissive' - SELinux prints warnings instead of enforcing.
+# 'disabled' - No SELinux policy is loaded.
+- state: 'enforcing'
+# 'targeted' - Targeted processes are protected.
+# 'minimum' - Modification of targeted policy. Only selected processes are
+# protected.
+# 'mls' - Multi Level Security protection.                                             
+  type: 'targeted'
 ```
