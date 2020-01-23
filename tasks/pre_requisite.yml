@@ -1,4 +1,12 @@
 ---
+- name: linux_helper | Check visudo exists
+  stat:
+    path: "/usr/bin/visudo"
+  register: "visudo_result"
+  failed_when: "visudo_result.stat.exists == False"
+  when:
+  - "hostvars[inventory_hostname]['linux_helper_sudoers'] is defined"
+  - "hostvars[inventory_hostname]['linux_helper_sudoers'] != ''"
 - name: linux_helper | Set facts about modprobe.d
   set_fact:
     linux_helper_modprobes: "{{

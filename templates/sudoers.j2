@@ -1,0 +1,7 @@
+{{ '## ' + 'sudoers' }}
+{{ '# ' + ansible_managed }}
+{{ '# ' + 'Do not edit manually' }}
+
+{% for s in hostvars[inventory_hostname]['linux_helper_sudoers'] %}
+{{ s }}
+{% endfor %}

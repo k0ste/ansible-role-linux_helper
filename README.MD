@@ -67,4 +67,9 @@ linux_helper_selinux:
 # protected.
 # 'mls' - Multi Level Security protection.                                             
   type: 'targeted'
+
+linux_helper_sudoers:
+# /etc/sudoers entries.
+- 'root ALL=(ALL) ALL'
+- '%wheel ALL=(ALL) NOPASSWD: ALL'
 ```

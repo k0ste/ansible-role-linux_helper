@@ -16,3 +16,7 @@
   when:
   - "vars['linux_helper_modprobes'] is defined"
   - "vars['linux_helper_modprobes'] != ''"
+- include_tasks: "deploy_sudoers.yml"
+  when:
+  - "hostvars[inventory_hostname]['linux_helper_sudoers'] is defined"
+  - "hostvars[inventory_hostname]['linux_helper_sudoers'] != ''"
