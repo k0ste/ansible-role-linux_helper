@@ -5,7 +5,7 @@
 {{ '127.0.0.1' + ' ' + 'localhost' }}
 {{ '::1' + ' ' + 'localhost' }}
 {% for h in hostvars[inventory_hostname]['linux_helper_hosts'] %}
-{% if h.address is defined and h.address | ipaddr('host') %}
+{% if h.address is defined and h.address | ansible.netcommon.ipaddr('host') %}
 {% if h.aliases is defined and h.aliases != '' %}
 {{ h.address + ' ' + h.aliases | join(' ') }}
 {% endif %}

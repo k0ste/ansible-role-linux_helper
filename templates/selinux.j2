@@ -4,7 +4,7 @@
 
 {% for c in hostvars[inventory_hostname]['linux_helper_selinux'] %}
 {% if c.state is defined and c.state in ['enforcing', 'permissive',
-                                         'disabled']  %}
+  'disabled']  %}
 {{ 'SELINUX' + '=' + c.state }}
 {% endif %}
 {% if c.type is defined and c.type in ['targeted', 'minimum', 'mls']  %}

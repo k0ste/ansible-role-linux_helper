@@ -2,21 +2,25 @@
 - import_tasks: "pre_requisite.yml"
 - include_tasks: "deploy_locale.yml"
   when:
-  - "hostvars[inventory_hostname]['linux_helper_locale'] is defined"
-  - "hostvars[inventory_hostname]['linux_helper_locale'] != ''"
+    - "hostvars[inventory_hostname]['linux_helper_locale'] is defined"
+    - "hostvars[inventory_hostname]['linux_helper_locale'] != ''"
+- include_tasks: "deploy_hostname.yml"
+  when:
+    - "vars['linux_helper_hostname'] is defined"
+    - "vars['linux_helper_hostname'] != ''"
 - include_tasks: "deploy_hosts.yml"
   when:
-  - "hostvars[inventory_hostname]['linux_helper_hosts'] is defined"
-  - "hostvars[inventory_hostname]['linux_helper_hosts'] != ''"
+    - "hostvars[inventory_hostname]['linux_helper_hosts'] is defined"
+    - "hostvars[inventory_hostname]['linux_helper_hosts'] != ''"
 - include_tasks: "deploy_selinux.yml"
   when:
-  - "hostvars[inventory_hostname]['linux_helper_selinux'] is defined"
-  - "hostvars[inventory_hostname]['linux_helper_selinux'] != ''"
+    - "hostvars[inventory_hostname]['linux_helper_selinux'] is defined"
+    - "hostvars[inventory_hostname]['linux_helper_selinux'] != ''"
 - include_tasks: "modprobe_executor.yml"
   when:
-  - "vars['linux_helper_modprobes'] is defined"
-  - "vars['linux_helper_modprobes'] != ''"
+    - "vars['linux_helper_modprobes'] is defined"
+    - "vars['linux_helper_modprobes'] != ''"
 - include_tasks: "deploy_sudoers.yml"
   when:
-  - "hostvars[inventory_hostname]['linux_helper_sudoers'] is defined"
-  - "hostvars[inventory_hostname]['linux_helper_sudoers'] != ''"
+    - "hostvars[inventory_hostname]['linux_helper_sudoers'] is defined"
+    - "hostvars[inventory_hostname]['linux_helper_sudoers'] != ''"

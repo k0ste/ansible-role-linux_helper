@@ -4,7 +4,7 @@ Various Linux deployments.
 
 ## Requirements
 
-* Ansible 2.5+;
+* Ansible 3.0.0+;
 
 ## Example configuration
 
@@ -21,11 +21,16 @@ linux_helper_locale:
 # This sets your env LANG to 'en_US.UTF-8'.
 linux_helper_set_langs: 'true'
 
-# Static table lookup for hostnames.
+# Set hostname or not
+linux_helper_hostname:
+  - set_hostname: 'true'
+    hostname: "{{ inventory_hostname }}"
+
+# Static table lookup for hostnames
 linux_helper_hosts:
-# IP address.
+# IP address
 - address: '192.168.0.193'
-# List of aliases.
+# List of aliases
   aliases:
   - 'home'
   - 'mirror.archlinux.org'
@@ -61,15 +66,15 @@ linux_helper_selinux:
 # 'enforcing' - SELinux security policy is enforced.
 # 'permissive' - SELinux prints warnings instead of enforcing.
 # 'disabled' - No SELinux policy is loaded.
-- state: 'enforcing'
+  - state: 'enforcing'
 # 'targeted' - Targeted processes are protected.
 # 'minimum' - Modification of targeted policy. Only selected processes are
 # protected.
 # 'mls' - Multi Level Security protection.                                             
-  type: 'targeted'
+    type: 'targeted'
 
 linux_helper_sudoers:
 # /etc/sudoers entries.
-- 'root ALL=(ALL) ALL'
-- '%wheel ALL=(ALL) NOPASSWD: ALL'
+  - 'root ALL=(ALL) ALL'
+  - '%wheel ALL=(ALL) NOPASSWD: ALL'
 ```

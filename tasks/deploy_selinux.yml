@@ -1,6 +1,6 @@
 ---
 - name: linux_helper | Deploy SELinux configuration
-  template:
+  ansible.builtin.template:
     src: "selinux.j2"
     dest: "/etc/selinux/config"
     owner: "root"

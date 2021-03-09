@@ -1,30 +1,44 @@
 ---
 - name: linux_helper | Check visudo exists
-  stat:
+  ansible.builtin.stat:
     path: "/usr/sbin/visudo"
   register: "visudo_result"
-  failed_when: "visudo_result.stat.exists == False"
+  failed_when: "visudo_result['stat']['exists'] == False"
   when:
-  - "hostvars[inventory_hostname]['linux_helper_sudoers'] is defined"
-  - "hostvars[inventory_hostname]['linux_helper_sudoers'] != ''"
+    - "hostvars[inventory_hostname]['linux_helper_sudoers'] is defined"
+    - "hostvars[inventory_hostname]['linux_helper_sudoers'] != ''"
 - name: linux_helper | Set facts about modprobe.d
-  set_fact:
+  ansible.builtin.set_fact:
     linux_helper_modprobes: "{{
       hostvars[inventory_hostname]['linux_helper_modprobe'] |
-      json_query('[].modprobes[].file_name') }}"
+      community.general.json_query('[].modprobes[].file_name') }}"
   when:
-  - "hostvars[inventory_hostname]['linux_helper_modprobe'] is defined"
-  - "hostvars[inventory_hostname]['linux_helper_modprobe'] != ''"
+    - "hostvars[inventory_hostname]['linux_helper_modprobe'] is defined"
+    - "hostvars[inventory_hostname]['linux_helper_modprobe'] != ''"
+- name: linux_helper | Set facts about hostname
+  ansible.builtin.set_fact:
+    linux_helper_hostname: "{{
+      hostvars[inventory_hostname]['linux_helper_hostname'] |
+      community.general.json_query('[].hostname | [0]') }}"
+  when:
+    - "hostvars[inventory_hostname]['linux_helper_hostname'] is defined"
+    - "hostvars[inventory_hostname]['linux_helper_hostname'] != ''"
+    - "hostvars[inventory_hostname]['linux_helper_hostname'] |
+       community.general.json_query(vars['linux_helper_set_hostname']) is defined"
+    - "hostvars[inventory_hostname]['linux_helper_hostname'] |
+       community.general.json_query(vars['linux_helper_set_hostname']) == 'true'"
+  vars:
+    linux_helper_set_hostname: "[] | map(&set_hostname || 'false', @) | [0]"
 - name: linux_helper | Make modprobe.d directory
-  file:
+  ansible.builtin.file:
     path: "/etc/modprobe.d"
     state: "directory"
     owner: "root"
     group: "root"
     mode: "0755"
   when:
-  - "vars['linux_helper_modprobes'] is defined"
-  - "vars['linux_helper_modprobes'] != ''"
+    - "vars['linux_helper_modprobes'] is defined"
+    - "vars['linux_helper_modprobes'] != ''"
 - name: linux_helper | Make selinux directory
   file:
     path: "/etc/selinux"
@@ -33,10 +47,10 @@
     group: "root"
     mode: "0755"
   when:
-  - "hostvars[inventory_hostname]['linux_helper_selinux'] is defined"
-  - "hostvars[inventory_hostname]['linux_helper_selinux'] != ''"
+    - "hostvars[inventory_hostname]['linux_helper_selinux'] is defined"
+    - "hostvars[inventory_hostname]['linux_helper_selinux'] != ''"
 - name: linux_helper | Find exists tmpfiles configuration files
-  find:
+  ansible.builtin.find:
     paths: "/etc/modprobe.d"
     recurse: "no"
     file_type: "file"
@@ -44,21 +58,21 @@
     use_regex: "true"
   register: "modprobe_find"
   when:
-  - "vars['linux_helper_modprobes'] is defined"
-  - "vars['linux_helper_modprobes'] != ''"
-  - "hostvars[inventory_hostname]['linux_helper_modprobe'] |
-     json_query(vars['modprobe_drop_exists']) is defined"
-  - "hostvars[inventory_hostname]['linux_helper_modprobe'] |
-     json_query(vars['modprobe_drop_exists']) == true"
+    - "vars['linux_helper_modprobes'] is defined"
+    - "vars['linux_helper_modprobes'] != ''"
+    - "hostvars[inventory_hostname]['linux_helper_modprobe'] |
+       community.general.json_query(vars['modprobe_drop_exists']) is defined"
+    - "hostvars[inventory_hostname]['linux_helper_modprobe'] |
+       community.general.json_query(vars['modprobe_drop_exists']) == true"
   vars:
     modprobe_drop_exists: "[] | map(&drop_exists || 'no', @) | [0]"
 - name: linux_helper | Delete exists modprobe.d files
-  file:
-    path: "{{ item.path }}"
+  ansible.builtin.file:
+    path: "{{ item['path'] }}"
     state: "absent"
   loop: "{{ vars['modprobe_find']['files'] | flatten(levels=1) }}"
   loop_control:
-    label: "{{ item.path }}"
+    label: "{{ item['path'] }}"
   when:
-  - "vars['modprobe_find']['files'] is defined"
-  - "vars['modprobe_find']['files'] != []"
+    - "vars['modprobe_find']['files'] is defined"
+    - "vars['modprobe_find']['files'] != []"

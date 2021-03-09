@@ -1,6 +1,6 @@
 ---
 - name: linux_helper | Deploy hosts table
-  template:
+  ansible.builtin.template:
     src: "hosts.j2"
     dest: "/etc/hosts"
     owner: "root"
