@@ -62,16 +62,13 @@ linux_helper_modprobe:
       module: 'iwlwifi'
       options: '11n_disable=8'
 
-linux_helper_selinux:
-# 'enforcing' - SELinux security policy is enforced.
-# 'permissive' - SELinux prints warnings instead of enforcing.
-# 'disabled' - No SELinux policy is loaded.
-  - state: 'enforcing'
-# 'targeted' - Targeted processes are protected.
-# 'minimum' - Modification of targeted policy. Only selected processes are
-# protected.
-# 'mls' - Multi Level Security protection.                                             
-    type: 'targeted'
+# This content will be placed to /etc/profile.d
+linux_helper_profile: |
+  #!/bin/bash
+
+  source /etc/os-release
+  echo -e "Hello, I'm ${PRETTY_NAME} $(uname -r)\n"
+
 
 linux_helper_sudoers:
 # /etc/sudoers entries.
