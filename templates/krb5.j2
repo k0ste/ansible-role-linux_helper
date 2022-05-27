@@ -1,0 +1,199 @@
+{{ '## krb5.conf' }}
+{{ '# ' + ansible_managed }}
+{{ '# Do not edit manually' }}
+
+{% for k in hostvars[inventory_hostname]['linux_helper_krb5'] %}
+{% if k.libdefaults is defined and k.libdefaults != '' %}
+{% for kl in k.libdefaults %}
+{% if loop.first %}
+{{ '[libdefaults]' }}
+{% endif %}
+{% if kl.allow_weak_crypto is defined and kl.allow_weak_crypto in ['true',
+  'false'] %}
+{{ 'allow_weak_crypto = ' + kl.allow_weak_crypto }}
+{% endif %}
+{% if kl.canonicalize is defined and kl.canonicalize in ['true', 'false'] %}
+{{ 'canonicalize = ' + kl.canonicalize }}
+{% endif %}
+{% if kl.ccache_type is defined and kl.ccache_type != '' %}
+{{ 'ccache_type = ' ~ kl.ccache_type }}
+{% endif %}
+{% if kl.clockskew is defined and kl.clockskew != '' %}
+{{ 'clockskew = ' ~ kl.clockskew }}
+{% endif %}
+{% if kl.default_ccache_name is defined and kl.default_ccache_name != '' %}
+{{ 'default_ccache_name = ' + kl.default_ccache_name }}
+{% endif %}
+{% if kl.default_client_keytab_name is defined and
+  kl.default_client_keytab_name != '' %}
+{{ 'default_client_keytab_name = ' + kl.default_client_keytab_name }}
+{% endif %}
+{% if kl.default_rcache_name is defined and kl.default_rcache_name != '' %}
+{{ 'default_rcache_name = ' + kl.default_rcache_name }}
+{% endif %}
+{% if kl.default_realm is defined and kl.default_realm != '' %}
+{{ 'default_realm = ' + kl.default_realm }}
+{% endif %}
+{% if kl.default_tgs_enctypes is defined and kl.default_tgs_enctypes != '' %}
+{{ 'default_tgs_enctypes = ' + kl.default_tgs_enctypes }}
+{% endif %}
+{% if kl.default_tkt_enctypes is defined and kl.default_tkt_enctypes != '' %}
+{{ 'default_tkt_enctypes = ' + kl.default_tkt_enctypes }}
+{% endif %}
+{% if kl.dns_canonicalize_hostname is defined and
+  kl.dns_canonicalize_hostname != '' %}
+{{ 'dns_canonicalize_hostname = ' + kl.dns_canonicalize_hostname }}
+{% endif %}
+{% if kl.dns_lookup_kdc is defined and kl.dns_lookup_kdc != '' %}
+{{ 'dns_lookup_kdc = ' + kl.dns_lookup_kdc }}
+{% endif %}
+{% if kl.dns_lookup_realm is defined and kl.dns_lookup_realm in ['true',
+  'false'] %}
+{{ 'dns_lookup_realm = ' + kl.dns_lookup_realm }}
+{% endif %}
+{% if kl.dns_uri_lookup is defined and kl.dns_uri_lookup in ['true', 'false'] %}
+{{ 'dns_uri_lookup = ' + kl.dns_uri_lookup }}
+{% endif %}
+{% if kl.enforce_ok_as_delegate is defined and kl.enforce_ok_as_delegate in
+  ['true', 'false'] %}
+{{ 'enforce_ok_as_delegate = ' + kl.enforce_ok_as_delegate }}
+{% endif %}
+{% if kl.err_fmt is defined and kl.err_fmt != '' %}
+{{ 'err_fmt = ' + kl.err_fmt }}
+{% endif %}
+{% if kl.extra_addresses is defined and kl.extra_addresses != '' %}
+{{ 'extra_addresses = ' + kl.extra_addresses }}
+{% endif %}
+{% if kl.forwardable is defined and kl.forwardable in ['true', 'false'] %}
+{{ 'forwardable = ' + kl.forwardable }}
+{% endif %}
+{% if kl.ignore_acceptor_hostname is defined and
+    kl.ignore_acceptor_hostname in ['true', 'false'] %}
+{{ 'ignore_acceptor_hostname = ' + kl.ignore_acceptor_hostname }}
+{% endif %}
+{% if kl.k5login_authoritative is defined and
+    kl.k5login_authoritative in ['true', 'false'] %}
+{{ 'k5login_authoritative = ' + kl.k5login_authoritative }}
+{% endif %}
+{% if kl.k5login_directory is defined and kl.k5login_directory != '' %}
+{{ 'k5login_directory = ' + kl.k5login_directory }}
+{% endif %}
+{% if kl.k5login_directory is defined and kl.k5login_directory != '' %}
+{{ 'k5login_directory = ' + kl.k5login_directory }}
+{% endif %}
+{% if kl.kcm_mach_service is defined and kl.kcm_mach_service != '' %}
+{{ 'kcm_mach_service = ' + kl.kcm_mach_service }}
+{% endif %}
+{% if kl.kcm_socket is defined and kl.kcm_socket != '' %}
+{{ 'kcm_socket = ' + kl.kcm_socket }}
+{% endif %}
+{% if kl.kdc_default_options is defined and kl.kdc_default_options != '' %}
+{{ 'kdc_default_options = ' + kl.kdc_default_options }}
+{% endif %}
+{% if kl.kdc_timesync is defined and kl.kdc_timesync in ['0', '1'] %}
+{{ 'kdc_timesync = ' + kl.kdc_timesync }}
+{% endif %}
+{% if kl.noaddresses is defined and kl.noaddresses in ['true', 'false'] %}
+{{ 'noaddresses = ' + kl.noaddresses }}
+{% endif %}
+{% if kl.permitted_enctypes is defined and kl.permitted_enctypes != '' %}
+{{ 'permitted_enctypes = ' + kl.permitted_enctypes }}
+{% endif %}
+{% if kl.plugin_base_dir is defined and kl.plugin_base_dir != '' %}
+{{ 'plugin_base_dir = ' + kl.plugin_base_dir }}
+{% endif %}
+{% if kl.preferred_preauth_types is defined and
+  kl.preferred_preauth_types != '' %}
+{{ 'preferred_preauth_types = ' + kl.preferred_preauth_types }}
+{% endif %}
+{% if kl.proxiable is defined and kl.proxiable in ['true', 'false'] %}
+{{ 'proxiable = ' + kl.proxiable }}
+{% endif %}
+{% if kl.qualify_shortname is defined and
+  kl.qualify_shortname != '' %}
+{{ 'qualify_shortname = ' + kl.qualify_shortname }}
+{% endif %}
+{% if kl.rdns is defined and kl.rdns in ['true', 'false'] %}
+{{ 'rdns = ' + kl.rdns }}
+{% endif %}
+{% if (kl.realm_try_domains is defined and kl.realm_try_domains != '') and
+  (kl.realm_try_domains | int() >= -1 and kl.realm_try_domains | int() <= 1) %}
+{{ 'realm_try_domains = ' ~ kl.realm_try_domains }}
+{% endif %}
+{% if kl.renew_lifetime is defined and kl.renew_lifetime != '' %}
+{{ 'renew_lifetime = ' ~ kl.renew_lifetime }}
+{% endif %}
+{% if kl.spake_preauth_groups is defined and kl.spake_preauth_groups != '' %}
+{{ 'spake_preauth_groups = ' + kl.spake_preauth_groups }}
+{% endif %}
+{% if kl.ticket_lifetime is defined and kl.ticket_lifetime != '' %}
+{{ 'ticket_lifetime = ' ~ kl.ticket_lifetime }}
+{% endif %}
+{% if kl.udp_preference_limit is defined and kl.udp_preference_limit != '' %}
+{{ 'udp_preference_limit = ' ~ kl.udp_preference_limit }}
+{% endif %}
+{% if kl.verify_ap_req_nofail is defined and
+  kl.verify_ap_req_nofail in ['true', 'false'] %}
+{{ 'verify_ap_req_nofail = ' + kl.verify_ap_req_nofail }}
+{% endif %}
+{% if kl.client_aware_channel_bindings is defined and
+  kl.client_aware_channel_bindings in ['true', 'false'] %}
+{{ 'client_aware_channel_bindings = ' + kl.client_aware_channel_bindings }}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if k.realms is defined and k.realms != '' %}
+{% for kr in k.realms %}
+{% if loop.first %}
+{{ '[realms]' }}
+{% endif %}
+{% if kr.name is defined and kr.name != '' %}
+{{ kr.name + ' = {' }}
+{% if kr.admin_server is defined and kr.admin_server != '' %}
+{{ '  admin_server = ' + kr.admin_server }}
+{% endif %}
+{% if kr.auth_to_local is defined and kr.auth_to_local != '' %}
+{% if kr.auth_to_local is string %}
+{{ '  auth_to_local = ' + kr.admin_server }}
+{% elif kr.auth_to_local is sequence %}
+{% for kla in kr.auth_to_local %}
+{{ '  auth_to_local = ' + kla }}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% if kr.auth_to_local_names is defined and kr.auth_to_local_names != '' %}
+{{ '  auth_to_local_names = ' + kr.auth_to_local_names }}
+{% endif %}
+{% if kr.default_domain is defined and kr.default_domain != '' %}
+{{ '  default_domain = ' + kr.default_domain }}
+{% endif %}
+{% if kr.disable_encrypted_timestamp is defined and
+  kr.disable_encrypted_timestamp in ['true', 'false'] %}
+{{ '  disable_encrypted_timestamp = ' + kr.disable_encrypted_timestamp }}
+{% endif %}
+{% if kr.http_anchors is defined and kr.http_anchors != '' %}
+{{ '  http_anchors = ' + kr.http_anchors }}
+{% endif %}
+{% if kr.kdc is defined and kr.kdc != '' %}
+{{ '  kdc = ' + kr.kdc }}
+{% endif %}
+{% if kr.kpasswd_server is defined and kr.kpasswd_server != '' %}
+{{ '  kpasswd_server = ' + kr.kpasswd_server }}
+{% endif %}
+{% if kr.master_kdc is defined and kr.master_kdc != '' %}
+{{ '  master_kdc = ' + kr.master_kdc }}
+{% endif %}
+{% if kr.primary_kdc is defined and kr.primary_kdc != '' %}
+{{ '  primary_kdc = ' + kr.primary_kdc }}
+{% endif %}
+{% if kr.v4_instance_convert is defined and kr.v4_instance_convert != '' %}
+{{ '  v4_instance_convert = ' + kr.v4_instance_convert }}
+{% endif %}
+{% if kr.v4_realm is defined and kr.v4_realm != '' %}
+{{ '  v4_realm = ' + kr.v4_realm }}
+{% endif %}
+{{ '}' }}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}

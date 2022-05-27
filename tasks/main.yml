@@ -31,3 +31,8 @@
   when:
     - "hostvars[inventory_hostname]['linux_helper_sudoers'] is defined"
     - "hostvars[inventory_hostname]['linux_helper_sudoers'] != ''"
+- ansible.builtin.include_tasks:
+    file: "deploy_krb5.yml"
+  when:
+    - "hostvars[inventory_hostname]['linux_helper_krb5'] is defined"
+    - "hostvars[inventory_hostname]['linux_helper_krb5'] != ''"
