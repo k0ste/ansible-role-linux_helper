@@ -1,25 +1,25 @@
-{{ '## ' ~ item.file_name ~ '.conf' }}
+{{ '## ' ~ item['file_name'] ~ '.conf' }}
 {{ '# ' + ansible_managed }}
 {{ '# Do not edit manually' }}
 
-{% for a in item.actions %}
-{% if a.action is defined and a.action != '' %}
-{% if a.action == 'alias' %}
-{% if (a.wildcard is defined and a.wildcard != '') and (a.module is defined and
-  a.module != '') %}
-{{ 'alias ' ~ a.wildcard ~ ' ' ~ a.module }}
+{% for a in item['actions'] %}
+{% if a['action'] is defined and a['action'] != '' %}
+{% if a['action'] == 'alias' %}
+{% if (a['wildcard'] is defined and a['wildcard'] != '') and (a['module'] is
+  defined and a['module'] != '') %}
+{{ 'alias ' ~ a['wildcard'] ~ ' ' ~ a['module'] }}
 {% endif %}
-{% elif a.action == 'blacklist' %}
-{% if a.module is defined and a.module != '' %}
-{{ 'blacklist ' ~ a.module }}
+{% elif a['action'] == 'blacklist' %}
+{% if a['module'] is defined and a['module'] != '' %}
+{{ 'blacklist ' ~ a['module'] }}
 {% endif %}
-{% elif a.action == 'options' %}
-{% if a.module is defined and a.module != '' and
-      a.options is defined and a.options != '' %}
-{% if a.options is string %}
-{{ 'options ' ~ a.module ~ ' ' ~ a.options }}
-{% elif a.options is sequence %}
-{{ 'options ' ~ a.module ~ ' ' ~ a.options | join(' ') }}
+{% elif a['action'] == 'options' %}
+{% if (a['module'] is defined and a['module'] != '') and (a['options'] is
+  defined and a['options'] != '') %}
+{% if a['options'] is string %}
+{{ 'options ' ~ a['module'] ~ ' ' ~ a['options'] }}
+{% elif a['options'] is sequence %}
+{{ 'options ' ~ a['module'] ~ ' ' ~ a['options'] | join(' ') }}
 {% endif %}
 {% endif %}
 {% endif %}

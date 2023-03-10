@@ -1,5 +1,5 @@
 ---
-- name: linux_helper | Deploy sudoers
+- name: "linux_helper | Deploy sudoers"
   ansible.builtin.template:
     src: "sudoers.j2"
     dest: "/etc/sudoers"

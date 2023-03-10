@@ -1,5 +1,5 @@
 ---
-- name: linux_helper | Deploy krb5.conf
+- name: "linux_helper | Deploy krb5.conf"
   ansible.builtin.template:
     src: "krb5.j2"
     dest: "/etc/krb5.conf"

@@ -1,5 +1,5 @@
 ---
-- name: linux_helper | Deploy hosts table
+- name: "linux_helper | Deploy hosts table"
   ansible.builtin.template:
     src: "hosts.j2"
     dest: "/etc/hosts"

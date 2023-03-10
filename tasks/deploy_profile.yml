@@ -1,5 +1,5 @@
 ---
-- name: linux_helper | Deploy profile configuration
+- name: "linux_helper | Deploy profile configuration"
   ansible.builtin.template:
     src: "profile.j2"
     dest: "/etc/profile.d/ansible.sh"
