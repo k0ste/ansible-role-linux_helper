@@ -55,8 +55,8 @@
 - ansible.builtin.include_tasks:
     file: "deploy_sudoers.yml"
   when:
-    - "vars['linux_helper_sudoers'] is defined"
-    - "vars['linux_helper_sudoers'] != []"
+    - "vars['linux_helper_sudoers_settings'] is defined"
+    - "vars['linux_helper_sudoers_settings'] != []"
 - ansible.builtin.include_tasks:
     file: "deploy_krb5.yml"
   when:
