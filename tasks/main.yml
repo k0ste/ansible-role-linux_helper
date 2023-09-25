@@ -1,17 +1,22 @@
 ---
-- ansible.builtin.import_tasks:
+
+- name: "linux_helper | Include prereq tasks"
+  ansible.builtin.import_tasks:
     file: "pre_requisite.yml"
-- ansible.builtin.include_tasks:
+- name: "linux_helper | Include deploy locale tasks"
+  ansible.builtin.include_tasks:
     file: "deploy_locale.yml"
   when:
     - "vars['linux_helper_locale_settings']['locales'] is defined"
     - "vars['linux_helper_locale_settings']['locales'] != []"
-- ansible.builtin.include_tasks:
+- name: "linux_helper | Include deploy profile tasks"
+  ansible.builtin.include_tasks:
     file: "deploy_profile.yml"
   when:
     - "vars['linux_helper_profile_settings'] is defined"
     - "vars['linux_helper_profile_settings'] != []"
-- ansible.builtin.include_tasks:
+- name: "linux_helper | Include deploy hostname tasks"
+  ansible.builtin.include_tasks:
     file: "deploy_hostname.yml"
   when:
     - "vars['linux_helper_hostname_settings'] is defined"
@@ -25,7 +30,8 @@
   vars:
     linux_helper_set_hostname: "[].hostname[] |
       map(&set_hostname || 'false', @) | [0]"
-- ansible.builtin.include_tasks:
+- name: "linux_helper | Include deploy hosts tasks"
+  ansible.builtin.include_tasks:
     file: "deploy_hosts.yml"
   when:
     - "vars['linux_helper_hosts_settings'] is defined"
@@ -38,7 +44,8 @@
        'true'"
   vars:
     linux_helper_set_hosts: "[].hosts[] | map(&set_hosts || 'false', @) | [0]"
-- ansible.builtin.include_tasks:
+- name: "linux_helper | Include modprobe executor"
+  ansible.builtin.include_tasks:
     file: "modprobe_executor.yml"
   when:
     - "vars['linux_helper_modprobe_files'] is defined"
@@ -52,12 +59,29 @@
   vars:
     linux_helper_set_modprobe: "[].modprobe[] |
       map(&set_modprobe || 'false', @) | [0]"
-- ansible.builtin.include_tasks:
+- name: "linux_helper | Include deploy sudoers tasks"
+  ansible.builtin.include_tasks:
     file: "deploy_sudoers.yml"
   when:
     - "vars['linux_helper_sudoers_settings'] is defined"
     - "vars['linux_helper_sudoers_settings'] != []"
-- ansible.builtin.include_tasks:
+- name: "linux_helper | Include deploy netconsole tasks"
+  ansible.builtin.include_tasks:
+    file: "deploy_netconsole.yml"
+  when:
+    - "vars['linux_helper_netconsole_settings'] is defined"
+    - "vars['linux_helper_netconsole_settings'] != []"
+    - "hostvars[inventory_hostname]['linux_helper'] |
+       community.general.json_query(vars['linux_helper_set_netconsole']) is
+       defined"
+    - "hostvars[inventory_hostname]['linux_helper'] |
+       community.general.json_query(vars['linux_helper_set_netconsole']) ==
+       'true'"
+  vars:
+    linux_helper_set_netconsole:
+      "[].netconsole[] | map(&set_netconsole || 'false', @) | [0]"
+- name: "linux_helper | Include deploy krb5 tasks"
+  ansible.builtin.include_tasks:
     file: "deploy_krb5.yml"
   when:
     - "vars['linux_helper_krb5_settings'] is defined"

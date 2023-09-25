@@ -1,0 +1,2 @@
+---
+linux_helper_netconsole_dest: '/etc/default'

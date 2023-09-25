@@ -1,0 +1,49 @@
+---
+
+- name: "linux_helper | Install the required packages in Redhat derivatives"
+  when:
+    - "hostvars[inventory_hostname]['ansible_os_family'] == 'RedHat'"
+  block:
+    - name: "linux_helper | Install the required packages for RedHat via yum"
+      ansible.builtin.yum:
+        name: "netconsole-service"
+        state: "latest"
+        update_cache: "yes"
+        update_only: "yes"
+      when:
+        - "hostvars[inventory_hostname]['ansible_pkg_mgr'] == 'yum'"
+    - name: "linux_helper | Install the required packages for RedHat via dnf"
+      ansible.builtin.dnf:
+        name: "netconsole-service"
+        state: "latest"
+        update_cache: "yes"
+        update_only: "yes"
+      when:
+        - "hostvars[inventory_hostname]['ansible_pkg_mgr'] == 'dnf'"
+- name: "linux_helper | Install the required packages in Debian derivatives"
+  ansible.builtin.apt:
+    name: "netconsole"
+    state: "latest"
+    update_cache: "yes"
+    only_upgrade: "yes"
+  when:
+    - "hostvars[inventory_hostname]['ansible_os_family'] == 'Debian'"
+- name: "linux_helper | Deploy netconsole configuration"
+  ansible.builtin.template:
+    src: "{{ 'netconsole_' + hostvars[inventory_hostname]['ansible_os_family'] +
+      '.j2' }}"
+    dest: "{{ hostvars[inventory_hostname]['linux_helper_netconsole_dest'] +
+      '/netconsole' }}"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+    force: "yes"
+  when:
+    - "hostvars[inventory_hostname]['ansible_os_family'] in ['RedHat',
+      'Debian']"
+  notify:
+    - "Restart netconsole"
+- name: "linux_helper | Enable netconsole service"
+  ansible.builtin.systemd:
+    name: "netconsole"
+    enabled: "yes"

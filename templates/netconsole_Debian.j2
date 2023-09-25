@@ -1,0 +1,15 @@
+{{ '## netconsole' }}
+{{ '# ' + ansible_managed }}
+{{ '# Do not edit manually' }}
+
+{% for n in vars['linux_helper_netconsole_settings'] %}
+{% if n['netconsole'] is defined and n['netconsole'] != '' %}
+{% for nn in n['netconsole'] %}
+{% if (nn['remote_ipaddr'] is defined and nn['remote_ipaddr'] |
+  ansible.utils.ipaddr('host')) and (nn['remote_port'] is defined and
+  nn['remote_port'] != '') %}
+{{ 'NETCONSOLE_OPTS=' ~ nn['remote_port'] ~ '@' + nn['remote_ipaddr'] }}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}

@@ -16,7 +16,6 @@
     flatten(levels=1) }}"
   loop_control:
     label: "{{ 'Deploy locale: ' + item['locale'] }}"
-  when:
 - name: "linux_helper | Deploy locale.conf"
   ansible.builtin.template:
     src: "locale_conf.j2"

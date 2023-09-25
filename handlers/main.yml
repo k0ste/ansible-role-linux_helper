@@ -7,3 +7,7 @@
   failed_when: "dracut_regenerate_result['rc'] != 0"
   when:
     - "hostvars[inventory_hostname]['ansible_os_family'] == 'RedHat'"
+- name: "Restart netconsole"
+  ansible.builtin.systemd:
+    name: "netconsole"
+    state: "restarted"

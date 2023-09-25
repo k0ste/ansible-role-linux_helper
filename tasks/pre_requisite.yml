@@ -1,4 +1,7 @@
 ---
+- name: "linux_helper | Add the OS specific varibles"
+  ansible.builtin.include_vars:
+    file: "{{ hostvars[inventory_hostname]['ansible_os_family'] + '.yml' }}"
 - name: "linux_helper | Set linux_helper role facts"
   ansible.builtin.set_fact:
     linux_helper_profile_settings:
@@ -19,6 +22,9 @@
     linux_helper_sudoers_settings:
       "{{ hostvars[inventory_hostname]['linux_helper'] |
       community.general.json_query('[].sudoers[]') }}"
+    linux_helper_netconsole_settings:
+      "{{ hostvars[inventory_hostname]['linux_helper'] |
+      community.general.json_query('[].netconsole[]') }}"
     linux_helper_krb5_settings:
       "{{ hostvars[inventory_hostname]['linux_helper'] |
       community.general.json_query('[].krb5[]') }}"
@@ -41,7 +47,7 @@
     - "vars['linux_helper_modprobe_files'] is defined"
     - "vars['linux_helper_modprobe_files'] != []"
 - name: "linux_helper | Create profile.d directory"
-  file:
+  ansible.builtin.file:
     path: "/etc/profile.d"
     state: "directory"
     owner: "root"

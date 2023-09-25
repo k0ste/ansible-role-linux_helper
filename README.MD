@@ -68,6 +68,16 @@ linux_helper:
     sudoers:
       - 'root ALL=(ALL) ALL'
       - '%wheel ALL=(ALL) NOPASSWD: ALL'
+# netconsole deployment: only for RedHat & Debian via package install with
+# systemd service
+    netconsole:
+      - set_netconsole: 'true'
+        netconsole:
+          - local_port: '6666'
+            remote_ipaddr: '10.0.1.100'
+            remote_port: '555'
+            remote_maddr: '52:8b:7d:b8:8e:7d'
+            device: 'bond0'
     krb5:
       - libdefaults:
 # If this flag is set to false, then weak encryption types will be filtered out
