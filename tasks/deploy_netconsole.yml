@@ -7,25 +7,22 @@
     - name: "linux_helper | Install the required packages for RedHat via yum"
       ansible.builtin.yum:
         name: "netconsole-service"
-        state: "latest"
+        state: "present"
         update_cache: "yes"
-        update_only: "yes"
       when:
         - "hostvars[inventory_hostname]['ansible_pkg_mgr'] == 'yum'"
     - name: "linux_helper | Install the required packages for RedHat via dnf"
       ansible.builtin.dnf:
         name: "netconsole-service"
-        state: "latest"
+        state: "present"
         update_cache: "yes"
-        update_only: "yes"
       when:
         - "hostvars[inventory_hostname]['ansible_pkg_mgr'] == 'dnf'"
 - name: "linux_helper | Install the required packages in Debian derivatives"
   ansible.builtin.apt:
     name: "netconsole"
-    state: "latest"
+    state: "present"
     update_cache: "yes"
-    only_upgrade: "yes"
   when:
     - "hostvars[inventory_hostname]['ansible_os_family'] == 'Debian'"
 - name: "linux_helper | Deploy netconsole configuration"
