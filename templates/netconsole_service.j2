@@ -1,0 +1,11 @@
+{{ '## netconsole.conf' }}
+{{ '# ' + ansible_managed }}
+{{ '# Do not edit manually' }}
+
+{{ '[Unit]' }}
+{{ 'StartLimitIntervalSec=30' }}
+{{ 'StartLimitBurst=3' }}
+
+{{ '[Service]' }}
+{{ 'Restart=on-failure' }}
+{{ 'RestartSec=10' }}

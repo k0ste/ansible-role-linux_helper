@@ -25,6 +25,8 @@
     linux_helper_netconsole_settings:
       "{{ hostvars[inventory_hostname]['linux_helper'] |
       community.general.json_query('[].netconsole[]') }}"
+    linux_helper_netconsole_systemd_dir:
+      '/etc/systemd/system/netconsole.service.d'
     linux_helper_krb5_settings:
       "{{ hostvars[inventory_hostname]['linux_helper'] |
       community.general.json_query('[].krb5[]') }}"
