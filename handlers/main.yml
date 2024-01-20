@@ -6,6 +6,7 @@
   ansible.builtin.systemd:
     name: "netconsole"
     state: "restarted"
+  register: "linux_helper_netconsole_restart_result"
   ignore_errors: true
 - name: "Run dracut"
   ansible.builtin.command:
