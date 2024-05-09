@@ -7,8 +7,8 @@
   ansible.builtin.include_tasks:
     file: "deploy_locale.yml"
   when:
-    - "vars['linux_helper_locale_settings']['locales'] is defined"
-    - "vars['linux_helper_locale_settings']['locales'] != []"
+    - "vars['linux_helper_locale_settings'] is defined"
+    - "vars['linux_helper_locale_settings'] != []"
 - name: "linux_helper | Include deploy profile tasks"
   ansible.builtin.include_tasks:
     file: "deploy_profile.yml"

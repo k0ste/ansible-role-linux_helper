@@ -12,8 +12,7 @@
   community.general.locale_gen:
     name: "{{ item['locale'] + '.' + item['charset'] }}"
     state: "present"
-  loop: "{{ vars['linux_helper_locale_settings']['locales'] |
-    flatten(levels=1) }}"
+  loop: "{{ vars['linux_helper_locale_settings'] | flatten(levels=1) }}"
   loop_control:
     label: "{{ 'Deploy locale: ' + item['locale'] }}"
 - name: "linux_helper | Deploy locale.conf"
@@ -25,6 +24,8 @@
     mode: "0644"
     force: "yes"
   when:
+    - "hostvars[inventory_hostname]['linux_helper'] is defined"
+    - "hostvars[inventory_hostname]['linux_helper'] != ''"
     - "hostvars[inventory_hostname]['linux_helper'] |
        community.general.json_query(vars['linux_helper_set_langs']) is defined"
     - "hostvars[inventory_hostname]['linux_helper'] |

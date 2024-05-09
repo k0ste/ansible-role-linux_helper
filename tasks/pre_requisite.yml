@@ -18,7 +18,7 @@
       community.general.json_query('[].modprobe[].modprobes[].file_name') }}"
     linux_helper_locale_settings:
       "{{ hostvars[inventory_hostname]['linux_helper'] |
-      community.general.json_query('[].locale[]') }}"
+      community.general.json_query('[].locale[].locales[]') }}"
     linux_helper_sudoers_settings:
       "{{ hostvars[inventory_hostname]['linux_helper'] |
       community.general.json_query('[].sudoers[]') }}"

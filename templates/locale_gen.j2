@@ -2,7 +2,7 @@
 {{ '# ' + ansible_managed }}
 {{ '# Do not edit manually' }}
 
-{% for l in vars['linux_helper_locale_settings']['locales'] %}
+{% for l in vars['linux_helper_locale_settings'] %}
 {% if (l['locale'] is defined and l['locale'] != '') and (l['charset'] is
   defined and l['charset'] != '') %}
 {{ l['locale'] + '.' + l['charset'] + ' ' + l['charset'] }}
