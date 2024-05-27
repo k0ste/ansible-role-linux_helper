@@ -37,6 +37,7 @@
   failed_when: "visudo_result['stat']['exists'] == False"
   when:
     - "vars['linux_helper_sudoers_settings'] is defined"
+    - "vars['linux_helper_sudoers_settings'] != ''"
     - "vars['linux_helper_sudoers_settings'] != []"
 - name: "linux_helper | Create modprobe.d directory"
   ansible.builtin.file:
@@ -47,6 +48,7 @@
     mode: "0755"
   when:
     - "vars['linux_helper_modprobe_files'] is defined"
+    - "vars['linux_helper_modprobe_files'] != ''"
     - "vars['linux_helper_modprobe_files'] != []"
 - name: "linux_helper | Create profile.d directory"
   ansible.builtin.file:
@@ -57,6 +59,7 @@
     mode: "0755"
   when:
     - "vars['linux_helper_profile'] is defined"
+    - "vars['linux_helper_profile'] != ''"
     - "vars['linux_helper_profile'] != []"
 - name: "linux_helper | Find exists tmpfiles configuration files"
   ansible.builtin.find:

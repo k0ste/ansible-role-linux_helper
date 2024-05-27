@@ -1,5 +1,4 @@
 ---
-
 - name: "linux_helper | Install the required packages in Redhat derivatives"
   when:
     - "hostvars[inventory_hostname]['ansible_os_family'] == 'RedHat'"
