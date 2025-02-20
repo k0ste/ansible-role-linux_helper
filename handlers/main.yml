@@ -11,8 +11,8 @@
 - name: "Run dracut"
   ansible.builtin.command:
     cmd: "dracut --regenerate-all --force"
-  register: "dracut_regenerate_result"
-  changed_when: "dracut_regenerate_result['rc'] == 0"
-  failed_when: "dracut_regenerate_result['rc'] != 0"
+  register: "linux_helper_dracut_regenerate_result"
+  changed_when: "linux_helper_dracut_regenerate_result['rc'] == 0"
+  failed_when: "linux_helper_dracut_regenerate_result['rc'] != 0"
   when:
     - "hostvars[inventory_hostname]['ansible_os_family'] == 'RedHat'"

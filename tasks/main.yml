@@ -2,9 +2,9 @@
 - name: "linux_helper | Include prereq tasks"
   ansible.builtin.import_tasks:
     file: "pre_requisite.yml"
-- name: "linux_helper | Include deploy locale tasks"
+- name: "linux_helper | Include locale tasks"
   ansible.builtin.include_tasks:
-    file: "deploy_locale.yml"
+    file: "deploy.d/locale/main.yml"
   when:
     - "vars['linux_helper_locale_settings'] is defined"
     - "vars['linux_helper_locale_settings'] != ''"
@@ -70,9 +70,9 @@
     - "vars['linux_helper_sudoers_settings'] is defined"
     - "vars['linux_helper_sudoers_settings'] != ''"
     - "vars['linux_helper_sudoers_settings'] != []"
-- name: "linux_helper | Include deploy netconsole tasks"
+- name: "linux_helper | Include netconsole tasks"
   ansible.builtin.include_tasks:
-    file: "deploy_netconsole.yml"
+    file: "deploy.d/netconsole/main.yml"
   when:
     - "vars['linux_helper_netconsole_settings'] is defined"
     - "vars['linux_helper_netconsole_settings'] != ''"
