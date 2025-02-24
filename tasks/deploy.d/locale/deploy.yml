@@ -1,36 +1,17 @@
 ---
-- name: "linux_helper | Prepare locale.gen file [Archlinux]"
-  ansible.builtin.template:
-    src: "locale_gen.j2"
-    dest: "/etc/locale.gen"
-    owner: "root"
-    group: "root"
-    mode: "0644"
-    force: "yes"
-  when:
-    - "hostvars[inventory_hostname]['ansible_os_family'] == 'Archlinux'"
 - name: "linux_helper | Deploy locales"
-  block:
-    - name: "linux_helper | Deploy locales [ArchLinux]"
-      ansible.builtin.command:
-        cmd: "locale-gen"
-      register: "linux_helper_locale_gen_result"
-      changed_when: "linux_helper_locale_gen_result['rc'] == 0"
-      failed_when: "linux_helper_locale_gen_result['rc'] != 0"
-      when:
-        - "hostvars[inventory_hostname]['ansible_os_family'] == 'Archlinux'"
-    - name: "linux_helper | Deploy locales [Debian]"
-      community.general.locale_gen:
-        name: "{{ linux_helper_locale_gen_locales['locale'] + '.' +
-          linux_helper_locale_gen_locales['charset'] }}"
-        state: "present"
-      loop: "{{ vars['linux_helper_locale_settings'] | flatten(levels=1) }}"
-      loop_control:
-        loop_var: "linux_helper_locale_gen_locales"
-        label: "{{ 'Deploy locale: ' +
-          linux_helper_locale_gen_locales['locale'] }}"
-      when:
-        - "hostvars[inventory_hostname]['ansible_os_family'] == 'Debian'"
+  community.general.locale_gen:
+    name: "{{ linux_helper_locale_gen_locales['locale'] + '.' +
+      linux_helper_locale_gen_locales['charset'] }}"
+    state: "present"
+  loop: "{{ vars['linux_helper_locale_settings'] | flatten(levels=1) }}"
+  loop_control:
+    loop_var: "linux_helper_locale_gen_locales"
+    label: "{{ 'Deploy locale: ' +
+      linux_helper_locale_gen_locales['locale'] }}"
+  when:
+    - "hostvars[inventory_hostname]['ansible_os_family'] in ('Debian',
+      'Archlinux')"
 - name: "linux_helper | Deploy locale.conf"
   ansible.builtin.template:
     src: "locale_conf.j2"

@@ -1,5 +1,5 @@
 ---
-- name: "linux_helper | Include localre packages tasks"
+- name: "linux_helper | Include locale packages tasks"
   ansible.builtin.import_tasks:
     file: "deploy.d/locale/packages.yml"
 - name: "linux_helper | Include locale deployment tasks"

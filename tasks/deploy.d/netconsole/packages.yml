@@ -1,5 +1,5 @@
 ---
-- name: "linux_helper | Install the netconsole packages for RedHat via dnf"
+- name: "linux_helper | Install the netconsole packages in RedHat derivatives"
   ansible.builtin.dnf:
     name: "netconsole-service"
     state: "present"
