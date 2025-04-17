@@ -81,8 +81,7 @@ linux_helper:
     sudoers:
       - 'root ALL=(ALL) ALL'
       - '%wheel ALL=(ALL) NOPASSWD: ALL'
-# netconsole deployment: only for RedHat & Debian via package install with
-# systemd service
+# netconsole deployment with systemd service
     netconsole:
       - set_netconsole: 'true'
         netconsole:

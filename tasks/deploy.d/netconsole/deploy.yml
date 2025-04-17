@@ -7,9 +7,6 @@
     owner: "root"
     mode: "0755"
     recurse: "no"
-  when:
-    - "hostvars[inventory_hostname]['ansible_os_family'] in ['RedHat',
-      'Debian']"
 # This task restart netconsole service on failure, such as error in MAC
 # resolution on physdev setup (via NetworkManager-dispatcher, for example)
 - name: "linux_helper | Deploy netconsole service configuration"
@@ -20,9 +17,6 @@
     owner: "root"
     group: "root"
     mode: "0644"
-  when:
-    - "hostvars[inventory_hostname]['ansible_os_family'] in ['RedHat',
-      'Debian']"
   notify:
     - "Daemon reload"
     - "Restart netconsole"
@@ -36,9 +30,6 @@
     group: "root"
     mode: "0644"
     force: "yes"
-  when:
-    - "hostvars[inventory_hostname]['ansible_os_family'] in ['RedHat',
-      'Debian']"
   notify:
     - "Restart netconsole"
 - name: "linux_helper | Enable netconsole service"
