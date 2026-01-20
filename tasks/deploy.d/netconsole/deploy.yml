@@ -1,7 +1,8 @@
 ---
 - name: "linux_helper | Create netconsole override systemd service directory"
   ansible.builtin.file:
-    path: "{{ vars['linux_helper_netconsole_systemd_dir'] }}"
+    path: "{{ lookup('ansible.builtin.vars',
+      'linux_helper_netconsole_systemd_dir') }}"
     state: "directory"
     group: "root"
     owner: "root"
@@ -12,8 +13,8 @@
 - name: "linux_helper | Deploy netconsole service configuration"
   ansible.builtin.template:
     src: "netconsole_service.j2"
-    dest: "{{ vars['linux_helper_netconsole_systemd_dir'] +
-      '/netconsole.conf' }}"
+    dest: "{{ lookup('ansible.builtin.vars',
+      'linux_helper_netconsole_systemd_dir') + '/netconsole.conf' }}"
     owner: "root"
     group: "root"
     mode: "0644"
@@ -22,8 +23,8 @@
     - "Restart netconsole"
 - name: "linux_helper | Deploy netconsole configuration"
   ansible.builtin.template:
-    src: "{{ 'netconsole_' + hostvars[inventory_hostname]['ansible_os_family'] +
-      '.j2' }}"
+    src: "{{ 'netconsole_' +
+      hostvars[inventory_hostname]['ansible_facts']['os_family'] + '.j2' }}"
     dest: "{{ hostvars[inventory_hostname]['linux_helper_netconsole_dest'] +
       '/netconsole' }}"
     owner: "root"

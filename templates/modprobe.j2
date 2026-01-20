@@ -1,4 +1,4 @@
-{{ '## ' ~ vars['outer_item'] ~ '.conf' }}
+{{ '## ' ~ lookup('ansible.builtin.vars', 'outer_item') ~ '.conf' }}
 {{ '# ' + ansible_managed }}
 {{ '# Do not edit manually' }}
 
