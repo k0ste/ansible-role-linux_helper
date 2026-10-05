@@ -20,13 +20,13 @@
   when:
     - "lookup('ansible.builtin.vars', 'linux_helper_hostname_settings',
       default='') not in ['', [], '[]', None]"
-    - "hostvars[inventory_hostname]['linux_helper'] is defined"
-    - "hostvars[inventory_hostname]['linux_helper'] not in ['', [], '[]', None]"
-    - "hostvars[inventory_hostname]['linux_helper'] |
+    - "lookup('ansible.builtin.vars', 'linux_helper', default='')
+      not in ['', [], '[]', None]"
+    - "lookup('ansible.builtin.vars', 'linux_helper') |
        community.general.json_query(lookup('ansible.builtin.vars',
-       'linux_helper_set_hostname', default='')) == 'true'"
+       '_linux_helper_set_hostname', default='')) == 'true'"
   vars:
-    linux_helper_set_hostname: "[].hostname[] |
+    _linux_helper_set_hostname: "[].hostname[] |
       map(&set_hostname || 'false', @) | [0]"
 - name: "linux_helper | Include deploy hosts tasks"
   ansible.builtin.include_tasks:
@@ -34,26 +34,26 @@
   when:
     - "lookup('ansible.builtin.vars', 'linux_helper_hosts_settings',
       default='') not in ['', [], '[]', None]"
-    - "hostvars[inventory_hostname]['linux_helper'] is defined"
-    - "hostvars[inventory_hostname]['linux_helper'] not in ['', [], '[]', None]"
-    - "hostvars[inventory_hostname]['linux_helper'] |
+    - "lookup('ansible.builtin.vars', 'linux_helper', default='')
+      not in ['', [], '[]', None]"
+    - "lookup('ansible.builtin.vars', 'linux_helper') |
        community.general.json_query(lookup('ansible.builtin.vars',
-       'linux_helper_set_hosts', default='')) == 'true'"
+       '_linux_helper_set_hosts', default='')) == 'true'"
   vars:
-    linux_helper_set_hosts: "[].hosts[] | map(&set_hosts || 'false', @) | [0]"
+    _linux_helper_set_hosts: "[].hosts[] | map(&set_hosts || 'false', @) | [0]"
 - name: "linux_helper | Include modprobe executor"
   ansible.builtin.include_tasks:
     file: "modprobe_executor.yml"
   when:
     - "lookup('ansible.builtin.vars', 'linux_helper_modprobe_files',
       default='') not in ['', [], '[]', None]"
-    - "hostvars[inventory_hostname]['linux_helper'] is defined"
-    - "hostvars[inventory_hostname]['linux_helper'] not in ['', [], '[]', None]"
-    - "hostvars[inventory_hostname]['linux_helper'] |
+    - "lookup('ansible.builtin.vars', 'linux_helper', default='')
+      not in ['', [], '[]', None]"
+    - "lookup('ansible.builtin.vars', 'linux_helper') |
        community.general.json_query(lookup('ansible.builtin.vars',
-       'linux_helper_set_modprobe', default='')) == 'true'"
+       '_linux_helper_set_modprobe', default='')) == 'true'"
   vars:
-    linux_helper_set_modprobe: "[].modprobe[] |
+    _linux_helper_set_modprobe: "[].modprobe[] |
       map(&set_modprobe || 'false', @) | [0]"
 - name: "linux_helper | Include deploy sudoers tasks"
   ansible.builtin.include_tasks:
@@ -67,14 +67,14 @@
   when:
     - "lookup('ansible.builtin.vars', 'linux_helper_netconsole_settings',
       default='') not in ['', [], '[]', None]"
-    - "hostvars[inventory_hostname]['linux_helper'] is defined"
-    - "hostvars[inventory_hostname]['linux_helper'] not in ['', [], '[]', None]"
-    - "hostvars[inventory_hostname]['linux_helper'] |
+    - "lookup('ansible.builtin.vars', 'linux_helper', default='')
+      not in ['', [], '[]', None]"
+    - "lookup('ansible.builtin.vars', 'linux_helper') |
        community.general.json_query(lookup('ansible.builtin.vars',
-       'linux_helper_set_netconsole', default='')) == 'true'"
+       '_linux_helper_set_netconsole', default='')) == 'true'"
   vars:
-    linux_helper_set_netconsole:
-      "[].netconsole[] | map(&set_netconsole || 'false', @) | [0]"
+    _linux_helper_set_netconsole: "[].netconsole[] |
+      map(&set_netconsole || 'false', @) | [0]"
 - name: "linux_helper | Include deploy krb5 tasks"
   ansible.builtin.include_tasks:
     file: "deploy_krb5.yml"

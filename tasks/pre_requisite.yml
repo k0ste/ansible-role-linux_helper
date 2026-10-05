@@ -9,43 +9,36 @@
   ansible.builtin.include_vars:
     file: "{{ hostvars[inventory_hostname]['ansible_facts']['os_family'] +
       '.yml' }}"
-
 - name: "linux_helper | Set linux_helper role facts"
   ansible.builtin.set_fact:
-    linux_helper_profile_settings:
-      "{{ hostvars[inventory_hostname]['linux_helper'] |
-      community.general.json_query('[].profile | [0]') }}"
-    linux_helper_hostname_settings:
-      "{{ hostvars[inventory_hostname]['linux_helper'] |
-      community.general.json_query('[].hostname[] | [0]') }}"
-    linux_helper_hosts_settings:
-      "{{ hostvars[inventory_hostname]['linux_helper'] |
-      community.general.json_query('[].hosts[] | [0]') }}"
-    linux_helper_modprobe_files:
-      "{{ (hostvars[inventory_hostname]['linux_helper'] |
+    linux_helper_profile_settings: "{{ lookup('ansible.builtin.vars',
+      'linux_helper') | community.general.json_query('[].profile | [0]') }}"
+    linux_helper_hostname_settings: "{{ lookup('ansible.builtin.vars',
+      'linux_helper') | community.general.json_query('[].hostname[] | [0]') }}"
+    linux_helper_hosts_settings: "{{ lookup('ansible.builtin.vars',
+      'linux_helper') | community.general.json_query('[].hosts[] | [0]') }}"
+    linux_helper_modprobe_files: "{{ (lookup('ansible.builtin.vars',
+      'linux_helper') |
       community.general.json_query('[].modprobe[].modprobes[].file_name')) |
       ansible.builtin.unique() }}"
-    linux_helper_locale_settings:
-      "{{ hostvars[inventory_hostname]['linux_helper'] |
-      community.general.json_query('[].locale[].locales[]') }}"
-    linux_helper_locale_langs:
-      "{{ (hostvars[inventory_hostname]['linux_helper'] |
+    linux_helper_locale_settings: "{{ lookup('ansible.builtin.vars',
+      'linux_helper') | community.general.json_query('[].locale[].locales[]') }}"
+    linux_helper_locale_langs: "{{ (lookup('ansible.builtin.vars',
+      'linux_helper') |
       community.general.json_query('[].locale[].locales[].lang')) |
       ansible.builtin.unique() }}"
-    linux_helper_sudoers_settings:
-      "{{ hostvars[inventory_hostname]['linux_helper'] |
-      community.general.json_query('[].sudoers[]') }}"
-    linux_helper_netconsole_settings:
-      "{{ hostvars[inventory_hostname]['linux_helper'] |
-      community.general.json_query('[].netconsole[]') }}"
+    linux_helper_sudoers_settings: "{{ lookup('ansible.builtin.vars',
+      'linux_helper') | community.general.json_query('[].sudoers[]') }}"
+    linux_helper_netconsole_settings: "{{ lookup('ansible.builtin.vars',
+      'linux_helper') |
+      community.general.json_query('[].netconsole[].netconsole[]') }}"
     linux_helper_netconsole_systemd_dir:
       '/etc/systemd/system/netconsole.service.d'
-    linux_helper_krb5_settings:
-      "{{ hostvars[inventory_hostname]['linux_helper'] |
-      community.general.json_query('[].krb5[]') }}"
+    linux_helper_krb5_settings: "{{ lookup('ansible.builtin.vars',
+      'linux_helper') | community.general.json_query('[].krb5[]') }}"
   when:
-    - "hostvars[inventory_hostname]['linux_helper'] is defined"
-    - "hostvars[inventory_hostname]['linux_helper'] not in ['', [], '[]', None]"
+    - "lookup('ansible.builtin.vars', 'linux_helper', default='')
+      not in ['', [], '[]', None]"
 - name: "linux_helper | Check visudo exists"
   ansible.builtin.stat:
     path: "/usr/sbin/visudo"
@@ -80,29 +73,30 @@
     recurse: "no"
     file_type: "file"
     patterns: "(.*).conf"
-    excludes: "{{ linux_helper_modprobe_exclude }}"
+    excludes: "{{ _linux_helper_modprobe_exclude }}"
     use_regex: "true"
   register: "linux_helper_modprobe_find_result"
   when:
     - "lookup('ansible.builtin.vars', 'linux_helper_modprobe_settings',
       default='') in ['', [], '[]', None]"
-    - "hostvars[inventory_hostname]['linux_helper'] is defined"
-    - "hostvars[inventory_hostname]['linux_helper'] not in ['', [], '[]', None]"
-    - "hostvars[inventory_hostname]['linux_helper'] |
+    - "lookup('ansible.builtin.vars', 'linux_helper', default='')
+      not in ['', [], '[]', None]"
+    - "lookup('ansible.builtin.vars', 'linux_helper') |
        community.general.json_query(lookup('ansible.builtin.vars',
-       'linux_helper_modprobe_drop_exists', default='')) == 'true'"
+       '_linux_helper_modprobe_drop_exists', default='')) == 'true'"
   vars:
-    linux_helper_modprobe_exclude: "{{ lookup('ansible.builtin.vars',
+    _linux_helper_modprobe_exclude: "{{ lookup('ansible.builtin.vars',
       'linux_helper_modprobe_files', default=[]) |
       map('regex_replace', '^(.*)$', '\\1.conf') | list() }}"
-    linux_helper_modprobe_drop_exists: "[].modprobe[] |
+    _linux_helper_modprobe_drop_exists: "[].modprobe[] |
       map(&drop_exists || 'false', @) | [0]"
 - name: "linux_helper | Delete exists modprobe.d files"
   ansible.builtin.file:
     path: "{{ linux_helper_modprobes_exist['path'] }}"
     state: "absent"
   loop: "{{ lookup('ansible.builtin.vars',
-    'linux_helper_modprobe_find_result')['files'] | flatten(levels=1) }}"
+    'linux_helper_modprobe_find_result')['files'] |
+    ansible.builtin.flatten(levels=1) }}"
   loop_control:
     loop_var: "linux_helper_modprobes_exist"
     label: "{{ 'Remove ' + linux_helper_modprobes_exist['path'] }}"

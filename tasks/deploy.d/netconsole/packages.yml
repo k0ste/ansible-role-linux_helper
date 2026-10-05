@@ -8,8 +8,8 @@
         update_cache: "yes"
     - name: "linux_helper | Install package with dnf"
       ansible.builtin.dnf:
-        name:
-          "{{ hostvars[inventory_hostname]['linux_helper_netconsole_package'] }}"
+        name: "{{ lookup('ansible.builtin.vars',
+          'linux_helper_netconsole_package') }}"
         state: "present"
 - name: "linux_helper | Install the required packages in Debian derivatives"
   when:
@@ -20,8 +20,8 @@
         update_cache: "yes"
     - name: "linux_helper | Install package with apt"
       ansible.builtin.apt:
-        name:
-          "{{ hostvars[inventory_hostname]['linux_helper_netconsole_package'] }}"
+        name: "{{ lookup('ansible.builtin.vars',
+          'linux_helper_netconsole_package') }}"
         state: "present"
 - name: "linux_helper | Install the required packages in ArchLinux derivatives"
   when:
@@ -33,6 +33,6 @@
         update_cache: "yes"
     - name: "linux_helper | Install package with pacman"
       community.general.pacman:
-        name:
-          "{{ hostvars[inventory_hostname]['linux_helper_netconsole_package'] }}"
+        name: "{{ lookup('ansible.builtin.vars',
+          'linux_helper_netconsole_package') }}"
         state: "present"

@@ -1,0 +1,29 @@
+{{ '## netconsole' }}
+{{ '# ' + ansible_managed }}
+{{ '# Do not edit manually' }}
+
+{% for n in lookup('ansible.builtin.vars',
+  'linux_helper_netconsole_settings') %}
+{% if n['local_port'] is defined and n['local_port']
+  not in ['', [], '[]', None] %}
+{{ 'LOCALPORT=' ~ n['local_port'] }}
+{% endif %}
+{% if (n['remote_ipaddr'] is defined and n['remote_ipaddr']
+  not in ['', [], '[]', None]) and ((n['remote_ipaddr'] |
+  ansible.utils.ipaddr('host')) is ansible.utils.ip()) %}
+{{ 'SYSLOGADDR=' + n['remote_ipaddr'] }}
+{% endif %}
+{% if n['remote_port'] is defined and n['remote_port']
+  not in ['', [], '[]', None] %}
+{{ 'SYSLOGPORT=' ~ n['remote_port'] }}
+{% endif %}
+{% if n['device'] is defined and n['device']
+  not in ['', [], '[]', None] %}
+{{ 'DEV=' ~ n['device'] }}
+{% endif %}
+{% if (n['remote_maddr'] is defined and n['remote_maddr']
+  not in ['', [], '[]', None]) and ((n['remote_maddr'] |
+  ansible.utils.hwaddr('linux')) is ansible.utils.mac()) %}
+{{ 'SYSLOGMACADDR=' + n['remote_maddr'] }}
+{% endif %}
+{% endfor %}

@@ -22,17 +22,38 @@
     - "Daemon reload"
     - "Restart netconsole"
 - name: "linux_helper | Deploy netconsole configuration"
-  ansible.builtin.template:
-    src: "{{ 'netconsole_' +
-      hostvars[inventory_hostname]['ansible_facts']['os_family'] + '.j2' }}"
-    dest: "{{ hostvars[inventory_hostname]['linux_helper_netconsole_dest'] +
-      '/netconsole' }}"
-    owner: "root"
-    group: "root"
-    mode: "0644"
-    force: "yes"
-  notify:
-    - "Restart netconsole"
+  when:
+    - "lookup('ansible.builtin.vars', 'linux_helper_netconsole_settings',
+      default='') not in ['', [], '[]', None]"
+  block:
+    - name: "linux_helper | Deploy netconsole configuration (not Debian)"
+      ansible.builtin.template:
+        src: "netconsole.j2"
+        dest: "{{ lookup('ansible.builtin.vars',
+          'linux_helper_netconsole_dest') + '/netconsole' }}"
+        owner: "root"
+        group: "root"
+        mode: "0644"
+        force: "yes"
+      notify:
+        - "Restart netconsole"
+      when:
+        - "hostvars[inventory_hostname]['ansible_facts']['os_family'] !=
+          'Debian'"
+    - name: "linux_helper | Deploy netconsole configuration (Debian)"
+      ansible.builtin.template:
+        src: "netconsole_Debian.j2"
+        dest: "{{ lookup('ansible.builtin.vars',
+          'linux_helper_netconsole_dest') + '/netconsole' }}"
+        owner: "root"
+        group: "root"
+        mode: "0644"
+        force: "yes"
+      notify:
+        - "Restart netconsole"
+      when:
+        - "hostvars[inventory_hostname]['ansible_facts']['os_family'] ==
+          'Debian'"
 - name: "linux_helper | Enable netconsole service"
   ansible.builtin.systemd:
     name: "netconsole"

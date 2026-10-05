@@ -5,7 +5,7 @@
       linux_helper_locale_gen_locales['charset'] }}"
     state: "present"
   loop: "{{ lookup('ansible.builtin.vars', 'linux_helper_locale_settings') |
-    flatten(levels=1) }}"
+    ansible.builtin.flatten(levels=1) }}"
   loop_control:
     loop_var: "linux_helper_locale_gen_locales"
     label: "{{ 'Deploy locale: ' +
@@ -22,10 +22,10 @@
     mode: "0644"
     force: "yes"
   when:
-    - "hostvars[inventory_hostname]['linux_helper'] is defined"
-    - "hostvars[inventory_hostname]['linux_helper'] not in ['', [], '[]', None]"
-    - "hostvars[inventory_hostname]['linux_helper'] |
+    - "lookup('ansible.builtin.vars', 'linux_helper', default='')
+      not in ['', [], '[]', None]"
+    - "lookup('ansible.builtin.vars', 'linux_helper') |
        community.general.json_query(lookup('ansible.builtin.vars',
-       'linux_helper_set_langs', default='')) == 'true'"
+       '_linux_helper_set_langs', default='')) == 'true'"
   vars:
-    linux_helper_set_langs: "[].locale[] | map(&set_langs || 'false', @) | [0]"
+    _linux_helper_set_langs: "[].locale[] | map(&set_langs || 'false', @) | [0]"
