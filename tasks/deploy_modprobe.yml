@@ -13,7 +13,7 @@
     \"[?file_name=='\" ~ lookup('ansible.builtin.vars',
     'outer_item') ~ \"']\")) | ansible.builtin.flatten(levels=1) }}"
   loop_control:
-    loop_var: "linux_helper_modprobes_deploy"
+    loop_var: "_linux_helper_modprobes_deploy"
     label: "{{ 'Deploy modprobe file: ' ~ lookup('ansible.builtin.vars',
       'outer_item') }}"
   notify:

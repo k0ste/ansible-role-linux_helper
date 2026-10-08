@@ -12,7 +12,7 @@
         state: "present"
       vars:
         _linux_helper_locale_langpacks: "{{ lookup('ansible.builtin.vars',
-          'linux_helper_locale_langs', default=[]) |
+          '_linux_helper_locale_langs', default=[]) |
           map('regex_replace', '^(.*)$', 'langpacks-\\1') | list() }}"
       when:
         - "_linux_helper_locale_langpacks not in ['', [], '[]', None]"

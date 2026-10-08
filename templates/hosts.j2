@@ -5,7 +5,7 @@
 {{ '127.0.0.1' + ' ' + 'localhost' }}
 {{ '::1' + ' ' + 'localhost' }}
 {% for h in lookup('ansible.builtin.vars',
-  'linux_helper_hosts_settings')['hosts'] %}
+  '_linux_helper_hosts_settings')['hosts'] %}
 {% if (h['address'] is defined and h['address']
   not in ['', [], '[]', None]) and ((h['address'] |
   ansible.utils.ipaddr('host')) is ansible.utils.ip()) %}

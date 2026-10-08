@@ -3,7 +3,7 @@
 {{ '# Do not edit manually' }}
 
 {% for n in lookup('ansible.builtin.vars',
-  'linux_helper_netconsole_settings') %}
+  '_linux_helper_netconsole_settings') %}
 {% if n['local_port'] is defined and n['local_port']
   not in ['', [], '[]', None] %}
 {{ 'LOCALPORT=' ~ n['local_port'] }}

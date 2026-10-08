@@ -2,7 +2,7 @@
 {{ '# ' + ansible_managed }}
 {{ '# Do not edit manually' }}
 
-{% for k in lookup('ansible.builtin.vars', 'linux_helper_krb5_settings') %}
+{% for k in lookup('ansible.builtin.vars', '_linux_helper_krb5_settings') %}
 {% if k['libdefaults'] is defined and k['libdefaults']
   not in ['', [], '[]', None] %}
 {% for kl in k['libdefaults'] %}

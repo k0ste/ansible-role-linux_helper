@@ -6,19 +6,19 @@
   ansible.builtin.include_tasks:
     file: "deploy.d/locale/main.yml"
   when:
-    - "lookup('ansible.builtin.vars', 'linux_helper_locale_settings',
+    - "lookup('ansible.builtin.vars', '_linux_helper_locale_settings',
       default='') not in ['', [], '[]', None]"
 - name: "linux_helper | Include deploy profile tasks"
   ansible.builtin.include_tasks:
     file: "deploy_profile.yml"
   when:
-    - "lookup('ansible.builtin.vars', 'linux_helper_profile_settings',
+    - "lookup('ansible.builtin.vars', '_linux_helper_profile_settings',
       default='') not in ['', [], '[]', None]"
 - name: "linux_helper | Include deploy hostname tasks"
   ansible.builtin.include_tasks:
     file: "deploy_hostname.yml"
   when:
-    - "lookup('ansible.builtin.vars', 'linux_helper_hostname_settings',
+    - "lookup('ansible.builtin.vars', '_linux_helper_hostname_settings',
       default='') not in ['', [], '[]', None]"
     - "lookup('ansible.builtin.vars', 'linux_helper', default='')
       not in ['', [], '[]', None]"
@@ -32,7 +32,7 @@
   ansible.builtin.include_tasks:
     file: "deploy_hosts.yml"
   when:
-    - "lookup('ansible.builtin.vars', 'linux_helper_hosts_settings',
+    - "lookup('ansible.builtin.vars', '_linux_helper_hosts_settings',
       default='') not in ['', [], '[]', None]"
     - "lookup('ansible.builtin.vars', 'linux_helper', default='')
       not in ['', [], '[]', None]"
@@ -45,7 +45,7 @@
   ansible.builtin.include_tasks:
     file: "modprobe_executor.yml"
   when:
-    - "lookup('ansible.builtin.vars', 'linux_helper_modprobe_files',
+    - "lookup('ansible.builtin.vars', '_linux_helper_modprobe_files',
       default='') not in ['', [], '[]', None]"
     - "lookup('ansible.builtin.vars', 'linux_helper', default='')
       not in ['', [], '[]', None]"
@@ -59,13 +59,13 @@
   ansible.builtin.include_tasks:
     file: "deploy_sudoers.yml"
   when:
-    - "lookup('ansible.builtin.vars', 'linux_helper_sudoers_settings',
+    - "lookup('ansible.builtin.vars', '_linux_helper_sudoers_settings',
       default='') not in ['', [], '[]', None]"
 - name: "linux_helper | Include netconsole tasks"
   ansible.builtin.include_tasks:
     file: "deploy.d/netconsole/main.yml"
   when:
-    - "lookup('ansible.builtin.vars', 'linux_helper_netconsole_settings',
+    - "lookup('ansible.builtin.vars', '_linux_helper_netconsole_settings',
       default='') not in ['', [], '[]', None]"
     - "lookup('ansible.builtin.vars', 'linux_helper', default='')
       not in ['', [], '[]', None]"
@@ -79,5 +79,5 @@
   ansible.builtin.include_tasks:
     file: "deploy_krb5.yml"
   when:
-    - "lookup('ansible.builtin.vars', 'linux_helper_krb5_settings',
+    - "lookup('ansible.builtin.vars', '_linux_helper_krb5_settings',
       default='') not in ['', [], '[]', None]"

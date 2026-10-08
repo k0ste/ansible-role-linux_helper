@@ -3,7 +3,7 @@
 {{ '# Do not edit manually' }}
 
 {% for n in lookup('ansible.builtin.vars',
-  'linux_helper_netconsole_settings') %}
+  '_linux_helper_netconsole_settings') %}
 {% if (n['remote_ipaddr'] is defined and n['remote_ipaddr']
   not in ['', [], '[]', None]) and ((n['remote_ipaddr'] |
   ansible.utils.ipaddr('host')) is ansible.utils.ip()) %}

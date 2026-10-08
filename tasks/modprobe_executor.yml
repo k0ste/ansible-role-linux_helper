@@ -2,7 +2,7 @@
 - name: "linux_helper | Include deploy modprobe tasks"
   ansible.builtin.include_tasks:
     file: "deploy_modprobe.yml"
-  loop: "{{ lookup('ansible.builtin.vars', 'linux_helper_modprobe_files') |
-    flatten(levels=1) }}"
+  loop: "{{ lookup('ansible.builtin.vars', '_linux_helper_modprobe_files') |
+    ansible.builtin.flatten(levels=1) }}"
   loop_control:
     loop_var: "outer_item"

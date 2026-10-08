@@ -2,4 +2,4 @@
 - name: "linux_helper | Deploy hostname"
   ansible.builtin.hostname:
     name: "{{ lookup('ansible.builtin.vars',
-      'linux_helper_hostname_settings')['hostname'] }}"
+      '_linux_helper_hostname_settings')['hostname'] }}"

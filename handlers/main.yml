@@ -8,14 +8,14 @@
     name: "netconsole"
     state: "restarted"
   listen: "Restart netconsole"
-  register: "linux_helper_netconsole_restart_result"
+  register: "_linux_helper_netconsole_restart_result"
   ignore_errors: true
 - name: "linux_helper | Run dracut regenerate force"
   ansible.builtin.command:
     cmd: "dracut --regenerate-all --force"
   listen: "Run dracut"
-  register: "linux_helper_dracut_regenerate_result"
-  changed_when: "linux_helper_dracut_regenerate_result['rc'] == 0"
-  failed_when: "linux_helper_dracut_regenerate_result['rc'] != 0"
+  register: "_linux_helper_dracut_regenerate_result"
+  changed_when: "_linux_helper_dracut_regenerate_result['rc'] == 0"
+  failed_when: "_linux_helper_dracut_regenerate_result['rc'] != 0"
   when:
     - "hostvars[inventory_hostname]['ansible_facts']['os_family'] == 'RedHat'"
